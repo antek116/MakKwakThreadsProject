@@ -7,11 +7,17 @@ public class Table {
 
     /**
      * Constructor of Table.
-     * @param N
+     * @param N max number of kebabs that can be on table.
      */
     Table(int N) {
         tableOfMeals = new Kebab[N];
     }
+
+    /**
+     * Method pick up meals from table by Waiter
+     * @param X max number of kebabs that waiter can hold.
+     * @return array of kebabs that waiter hold.
+     */
 
     public synchronized Kebab[] getMeals(int X) {
         Kebab[] mealsToTake = new Kebab[X];
@@ -21,12 +27,20 @@ public class Table {
         return mealsToTake;
     }
 
+    /**
+     * Method put Kebabs on table
+     * @param kebabList all kebabs that cook have made.
+     */
     public synchronized void putMealsOnTable(Kebab[] kebabList) {
         for (Kebab kebab : kebabList) {
             putOneMealOnTable(kebab);
         }
     }
 
+    /**
+     * Count empty slots on table.
+     * @return number of empty space at table.
+     */
     public synchronized int countEmptySlotsOnTable() {
         int emptySlots = 0;
         for (Kebab kebab : tableOfMeals) {
@@ -37,6 +51,10 @@ public class Table {
         return emptySlots;
     }
 
+    /**
+     * Method puts one kebab at Table
+     * @param meal Kebab made by cook
+     */
     private void putOneMealOnTable(Kebab meal) {
         for (int i = 0; i < tableOfMeals.length; i++) {
             if (tableOfMeals[i] == null) {
@@ -46,6 +64,10 @@ public class Table {
         }
     }
 
+    /**
+     * Method to find kebab with lowest id.
+     * @return Kebab with lowest id.
+     */
     private Kebab getLowestKebab() {
         Kebab kebabToReturn = new Kebab(Integer.MAX_VALUE);
         int indexOfTake = -1;
@@ -63,6 +85,12 @@ public class Table {
         return null;
     }
 
+
+    /**
+     * Methods return that cooker can put meals or not.
+     * @param X maximum number of kebab that cook can made.
+     * @return true if is enough space or false if not.
+     */
     public synchronized boolean canPutMeals(int X) {
         return countEmptySlotsOnTable() >= X;
     }

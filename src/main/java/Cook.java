@@ -1,6 +1,6 @@
 /**
  *
- * Created by user on 07.03.2016.
+ * Class implements instance of cook.
  */
 public class Cook implements Runnable {
     private int maksKebabCanProduct;
@@ -8,6 +8,12 @@ public class Cook implements Runnable {
     private int indexOfKebabsMadeToDay;
     private String name;
 
+    /**
+     * Construcotr of Cook class.
+     * @param Y maximum value of kebab that cook can made.
+     * @param table Instance of table where cook puts meals.
+     * @param name Name of Cook.
+     */
     public Cook(int Y, Table table, String name) {
         this.maksKebabCanProduct = Y;
         this.table = table;
@@ -15,6 +21,9 @@ public class Cook implements Runnable {
         this.name = name;
     }
 
+    /**
+     * Method simulated work of cook.
+     */
     @SuppressWarnings("InfiniteLoopStatement")
     @Override
     public void run() {
@@ -26,6 +35,10 @@ public class Cook implements Runnable {
 
     }
 
+    /**
+     * Method made Kebab by cook.
+     * @return array of taken kebab by cook.
+     */
     public Kebab[] makeKebab() {
         Kebab[] kebabProduced = new Kebab[maksKebabCanProduct];
         for (int i = 0; i < maksKebabCanProduct; i++) {
@@ -34,6 +47,10 @@ public class Cook implements Runnable {
         return kebabProduced;
     }
 
+    /**
+     * Method where cook waiting for enough space for Kebab,
+     * if there's enough empty space he made Kebabs, if not he waiting
+     */
     private void service(){
         if (table.canPutMeals(maksKebabCanProduct)) {
             System.out.println("Cook " + name + " : Makes " + maksKebabCanProduct + " Kebab");
@@ -41,14 +58,12 @@ public class Cook implements Runnable {
                 Thread.sleep(1000);
                 table.putMealsOnTable(makeKebab());
                 table.notifyAll();
-                table.wait();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         } else {
             try {
                 System.out.println("Cook " + name + " : There's no space for kebab, Waiting");
-                table.notify();
                 table.wait();
             } catch (InterruptedException e) {
                 e.printStackTrace();
