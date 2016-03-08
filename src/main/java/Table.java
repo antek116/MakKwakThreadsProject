@@ -95,6 +95,11 @@ public class Table {
         return countEmptySlotsOnTable() >= X;
     }
 
+    /**
+     * Method check thats is enough kebabs on table
+     * @param N value of kebab that can be pick up by Waiter
+     * @return true if is enough Kebab on table, false if not.
+     */
     public synchronized boolean canTakeMeals(int N) {
         return tableOfMeals.length - countEmptySlotsOnTable() >= N;
     }
